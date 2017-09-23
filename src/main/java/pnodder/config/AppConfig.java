@@ -9,7 +9,7 @@ import pnodder.consumers.JmsConsumer;
 import pnodder.producers.JmsProducer;
 
 @Configuration
-public class JmsAppConfig {
+public class AppConfig {
 
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
