@@ -53,14 +53,14 @@ public class AppConfig {
         return exampleConsumer;
     }
 
-/*    @Bean  Uncomment to use the MDP or delegate style
+    @Bean
     ExampleListener exampleListener() {
         return new ExampleListener();
     }
 
     @Bean
     DefaultMessageListenerContainer jmsContainer() {
-        DefaultMessageListenerContainer container = new DefaultMessageListenerC                      ontainer();
+        DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
         container.setConnectionFactory(activeMQConnectionFactory());
         container.setDestination(activeMQQueue());
         //container.setMessageListener(exampleListener());
@@ -72,6 +72,6 @@ public class AppConfig {
     MessageListenerAdapter messageListenerAdapter() {
         MessageListenerAdapter adapter = new MessageListenerAdapter(new MessageDelegate());
         return adapter;
-    }*/
+    }
 
 }
