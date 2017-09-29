@@ -5,8 +5,12 @@ import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
-import pnodder.consumers.JmsConsumer;
-import pnodder.producers.JmsProducer;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
+import org.springframework.jms.listener.adapter.MessageListenerAdapter;
+import pnodder.consumers.ExampleConsumer;
+import pnodder.delegates.MessageDelegate;
+import pnodder.listeners.ExampleListener;
+import pnodder.producers.ExampleProducer;
 
 @Configuration
 public class AppConfig {
@@ -33,19 +37,41 @@ public class AppConfig {
     }
 
     @Bean
-    JmsProducer jmsProducer() {
-        JmsProducer jmsProducer = new JmsProducer();
-        jmsProducer.setDestination(activeMQQueue());
-        jmsProducer.setJmsTemplate(jmsTemplate());
-        return jmsProducer;
+    ExampleProducer jmsProducer() {
+        ExampleProducer exampleProducer = new ExampleProducer();
+        exampleProducer.setDestination(activeMQQueue());
+        exampleProducer.setJmsTemplate(jmsTemplate());
+
+        return exampleProducer;
     }
 
     @Bean
-    JmsConsumer jmsConsumer() {
-        JmsConsumer jmsConsumer = new JmsConsumer();
-        jmsConsumer.setDestination(activeMQQueue());
-        jmsConsumer.setJmsTemplate(jmsTemplate());
-        return jmsConsumer;
+    ExampleConsumer jmsConsumer() {
+        ExampleConsumer exampleConsumer = new ExampleConsumer();
+        exampleConsumer.setDestination(activeMQQueue());
+        exampleConsumer.setJmsTemplate(jmsTemplate());
+        return exampleConsumer;
     }
+
+/*    @Bean  Uncomment to use the MDP or delegate style
+    ExampleListener exampleListener() {
+        return new ExampleListener();
+    }
+
+    @Bean
+    DefaultMessageListenerContainer jmsContainer() {
+        DefaultMessageListenerContainer container = new DefaultMessageListenerC                      ontainer();
+        container.setConnectionFactory(activeMQConnectionFactory());
+        container.setDestination(activeMQQueue());
+        //container.setMessageListener(exampleListener());
+        container.setMessageListener(messageListenerAdapter());
+        return container;
+    }
+
+    @Bean
+    MessageListenerAdapter messageListenerAdapter() {
+        MessageListenerAdapter adapter = new MessageListenerAdapter(new MessageDelegate());
+        return adapter;
+    }*/
 
 }

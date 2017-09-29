@@ -1,13 +1,12 @@
-package pnodder.producers;
+package pnodder.consumers;
 
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
-import org.springframework.stereotype.Component;
+import pnodder.model.Email;
 
 import javax.jms.Destination;
+import javax.jms.JMSException;
 
-@Component
-public class JmsProducer {
+public class ExampleConsumer {
 
     private JmsTemplate jmsTemplate;
     private Destination destination;
@@ -28,9 +27,10 @@ public class JmsProducer {
         this.destination = destination;
     }
 
-    public void sendMessage(final String msg) {
-        System.out.println("Sending message");
-        MessageCreator messageCreator = s -> s.createTextMessage(msg);
-        jmsTemplate.send(destination, messageCreator);
+    public String receiveMessage() throws JMSException {
+        Email email = (Email) jmsTemplate.receiveAndConvert(destination);
+        return email.getBody();
     }
+
+
 }
